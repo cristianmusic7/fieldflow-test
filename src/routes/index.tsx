@@ -1,20 +1,17 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
+import { OrganizationList } from "@/components/ui/OrganizationList";
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute("/")({
   component: Index,
-})
+});
 
 function Index() {
   return (
     <div className="p-2 flex flex-col gap-2">
       <h3 className="text-2xl font-bold">Welcome to the FieldFlow Test!</h3>
-      <p>
-        Replace this page with a list of organizations that the user belongs to per the instructions in the README.
-      </p>
-      <p>
-        Buena suerte!
-      </p>
-      
+      <div className="container mx-auto py-8">
+        <OrganizationList />
+      </div>
     </div>
-  )
+  );
 }

@@ -12,6 +12,9 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
+import { Route as OrgsOrganizationIdIndexImport } from './routes/orgs/$organizationId/index'
+import { Route as OrgsOrganizationIdAdminImport } from './routes/orgs/$organizationId/admin'
+import { Route as OrgsOrganizationIdContactsContactIdImport } from './routes/orgs/$organizationId/contacts/$contactId'
 
 // Create/Update Routes
 
@@ -20,6 +23,25 @@ const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any)
+
+const OrgsOrganizationIdIndexRoute = OrgsOrganizationIdIndexImport.update({
+  id: '/orgs/$organizationId/',
+  path: '/orgs/$organizationId/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const OrgsOrganizationIdAdminRoute = OrgsOrganizationIdAdminImport.update({
+  id: '/orgs/$organizationId/admin',
+  path: '/orgs/$organizationId/admin',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const OrgsOrganizationIdContactsContactIdRoute =
+  OrgsOrganizationIdContactsContactIdImport.update({
+    id: '/orgs/$organizationId/contacts/$contactId',
+    path: '/orgs/$organizationId/contacts/$contactId',
+    getParentRoute: () => rootRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -32,6 +54,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/orgs/$organizationId/admin': {
+      id: '/orgs/$organizationId/admin'
+      path: '/orgs/$organizationId/admin'
+      fullPath: '/orgs/$organizationId/admin'
+      preLoaderRoute: typeof OrgsOrganizationIdAdminImport
+      parentRoute: typeof rootRoute
+    }
+    '/orgs/$organizationId/': {
+      id: '/orgs/$organizationId/'
+      path: '/orgs/$organizationId'
+      fullPath: '/orgs/$organizationId'
+      preLoaderRoute: typeof OrgsOrganizationIdIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/orgs/$organizationId/contacts/$contactId': {
+      id: '/orgs/$organizationId/contacts/$contactId'
+      path: '/orgs/$organizationId/contacts/$contactId'
+      fullPath: '/orgs/$organizationId/contacts/$contactId'
+      preLoaderRoute: typeof OrgsOrganizationIdContactsContactIdImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -39,32 +82,61 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/orgs/$organizationId/admin': typeof OrgsOrganizationIdAdminRoute
+  '/orgs/$organizationId': typeof OrgsOrganizationIdIndexRoute
+  '/orgs/$organizationId/contacts/$contactId': typeof OrgsOrganizationIdContactsContactIdRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/orgs/$organizationId/admin': typeof OrgsOrganizationIdAdminRoute
+  '/orgs/$organizationId': typeof OrgsOrganizationIdIndexRoute
+  '/orgs/$organizationId/contacts/$contactId': typeof OrgsOrganizationIdContactsContactIdRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/orgs/$organizationId/admin': typeof OrgsOrganizationIdAdminRoute
+  '/orgs/$organizationId/': typeof OrgsOrganizationIdIndexRoute
+  '/orgs/$organizationId/contacts/$contactId': typeof OrgsOrganizationIdContactsContactIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/orgs/$organizationId/admin'
+    | '/orgs/$organizationId'
+    | '/orgs/$organizationId/contacts/$contactId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/orgs/$organizationId/admin'
+    | '/orgs/$organizationId'
+    | '/orgs/$organizationId/contacts/$contactId'
+  id:
+    | '__root__'
+    | '/'
+    | '/orgs/$organizationId/admin'
+    | '/orgs/$organizationId/'
+    | '/orgs/$organizationId/contacts/$contactId'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  OrgsOrganizationIdAdminRoute: typeof OrgsOrganizationIdAdminRoute
+  OrgsOrganizationIdIndexRoute: typeof OrgsOrganizationIdIndexRoute
+  OrgsOrganizationIdContactsContactIdRoute: typeof OrgsOrganizationIdContactsContactIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  OrgsOrganizationIdAdminRoute: OrgsOrganizationIdAdminRoute,
+  OrgsOrganizationIdIndexRoute: OrgsOrganizationIdIndexRoute,
+  OrgsOrganizationIdContactsContactIdRoute:
+    OrgsOrganizationIdContactsContactIdRoute,
 }
 
 export const routeTree = rootRoute
@@ -77,11 +149,23 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/"
+        "/",
+        "/orgs/$organizationId/admin",
+        "/orgs/$organizationId/",
+        "/orgs/$organizationId/contacts/$contactId"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/orgs/$organizationId/admin": {
+      "filePath": "orgs/$organizationId/admin.tsx"
+    },
+    "/orgs/$organizationId/": {
+      "filePath": "orgs/$organizationId/index.tsx"
+    },
+    "/orgs/$organizationId/contacts/$contactId": {
+      "filePath": "orgs/$organizationId/contacts/$contactId.tsx"
     }
   }
 }
