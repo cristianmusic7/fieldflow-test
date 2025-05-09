@@ -17,7 +17,6 @@ import {
   Button,
   useDisclosure,
 } from "@heroui/react";
-import { isAuthenticated } from "../../../../convex/auth";
 
 export const Route = createFileRoute("/orgs/$organizationId/")({
   //Make sure user is in organization, otherwise redirecting to home
