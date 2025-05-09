@@ -17,6 +17,7 @@ import {
   Button,
   useDisclosure,
 } from "@heroui/react";
+import { isAuthenticated } from "../../../../convex/auth";
 
 export const Route = createFileRoute("/orgs/$organizationId/")({
   //Make sure user is in organization, otherwise redirecting to home
@@ -24,15 +25,23 @@ export const Route = createFileRoute("/orgs/$organizationId/")({
   beforeLoad: async ({ params, context }) => {
     const { organizationId } = params;
 
-    const inOrganization = await context.queryClient.fetchQuery({
-      queryKey: ["organizationRole", organizationId],
-      queryFn: () =>
-        context.convex.query(api.organizations.isInOrganization, {
-          organizationId: organizationId as Id<"organizations">,
-        }),
-    });
+    try {
+      const inOrganization = await context.queryClient.fetchQuery({
+        queryKey: ["organizationRole", organizationId],
+        queryFn: () =>
+          context.convex.query(api.organizations.isInOrganization, {
+            organizationId: organizationId as Id<"organizations">,
+          }),
+      });
 
-    if (!inOrganization) {
+      //Not in org
+      if (!inOrganization) {
+        throw redirect({
+          to: "/",
+        });
+      }
+    } catch (error) {
+      //Throws an error in backend, (Not auth, or permissions)
       throw redirect({
         to: "/",
       });

@@ -131,3 +131,8 @@ Your goal is to connect the pre‑seeded schema to a minimal UI that demonstrate
 * **Questions?** Open an issue in the repo or email us—happy to clarify.
 
 Good luck & have fun! We’re excited to see your approach.
+
+## Submission Stretch goals
+
+* Contact's table pagination implemented when users > 5 for testing purposes.  
+* Frontend hosted at https://fieldflowtest.web.app/

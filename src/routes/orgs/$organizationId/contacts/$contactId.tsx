@@ -14,15 +14,22 @@ export const Route = createFileRoute(
   beforeLoad: async ({ params, context }) => {
     const { organizationId, contactId } = params;
 
-    const inOrganization = await context.queryClient.fetchQuery({
-      queryKey: ["organizationRole", organizationId],
-      queryFn: () =>
-        context.convex.query(api.organizations.isInOrganization, {
-          organizationId: organizationId as Id<"organizations">,
-        }),
-    });
+    try {
+      const inOrganization = await context.queryClient.fetchQuery({
+        queryKey: ["organizationRole", organizationId],
+        queryFn: () =>
+          context.convex.query(api.organizations.isInOrganization, {
+            organizationId: organizationId as Id<"organizations">,
+          }),
+      });
 
-    if (!inOrganization) {
+      if (!inOrganization) {
+        throw redirect({
+          to: "/",
+        });
+      }
+    } catch (error) {
+      //Throws an error in backend, (Not auth, or permissions)
       throw redirect({
         to: "/",
       });

@@ -8,7 +8,7 @@ import {
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { Authenticated, Unauthenticated, useConvexAuth } from "convex/react";
 import { useAuthActions } from "@convex-dev/auth/react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Alert,
   Button,
@@ -74,10 +74,21 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 function SignOutButton() {
   const { isAuthenticated } = useConvexAuth();
   const { signOut } = useAuthActions();
+  let router = useRouter();
+
   return (
     <>
       {isAuthenticated && (
-        <Button color="primary" onPress={() => void signOut()}>
+        <Button
+          color="primary"
+          onPress={() => {
+            void signOut();
+            //Redirecting to home
+            router.navigate({
+              to: "/",
+            });
+          }}
+        >
           Sign out
         </Button>
       )}

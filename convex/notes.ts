@@ -9,7 +9,7 @@ export const createContactNote = mutation({
     contactId: v.id("contacts"),
   },
   handler: async (ctx, args) => {
-    const userId = await getUserId(ctx);
+    await getUserId(ctx);
 
     await ctx.db.insert("notes", {
       note: args.note,
